@@ -1,50 +1,80 @@
-function teste() {
-	const randonNumber = (Math.round(Math.random() * 10));
-	return randonNumber
+// CONSTS
+
+const screen1 = document.querySelector('.screen1')
+const screen2 = document.querySelector('.screen2')
+const btnTry = document.querySelector('#btnTry')
+const btnReset = document.querySelector('#btnReset')
+const inputNumber = document.querySelector('#inputNumber')
+
+function creatrandonNumber() {
+   const randonNumber = Math.round(Math.random() * 100)
+   return randonNumber
 }
-let randonNumber = teste()
 
-let xAttempts = 1;
+let randonNumber = creatrandonNumber()
+let xAttempts = 1
+let key = 0
+console.log("randon = " + randonNumber)
 
-const screen1 = document.querySelector(".screen1")
-const screen2 = document.querySelector(".screen2")
+// EVENTOS 
+btnTry.addEventListener('click', handleClick)
+btnReset.addEventListener('click', reset)
 
-const btnTry = document.querySelector("#btnTry")
-const btnReset = document.querySelector("#btnReset")
-
-console.log(randonNumber)
 function handleClick(event) {
-	event.preventDefault()
+   event.preventDefault()
+
+   if (Number(inputNumber.value) == randonNumber) {
+      screen1.classList.add('hide')
+      screen2.classList.remove('hide')
+
+		key++
+
+		document.addEventListener('keyup', keyUp)
+		
+		if (xAttempts === 1) {
+			document.querySelector('h2').innerHTML = `Acertou em ${xAttempts} tentativa!`
+		} else {
+			document.querySelector('h2').innerHTML = `Acertou em ${xAttempts} tentativas!`
+		};
+      
+   };
 	
-	const inputNumber = document.querySelector("#inputNumber");
+	if (inputNumber.value == "") {
+		screen1.querySelector('h3').innerText = `Digite um valor!`
+	} else {
+		if (inputNumber.value > randonNumber) {
+			screen1.querySelector('h3').innerHTML = `Errou! <br/> O número é MENOR que ${inputNumber.value}!`
+		} else if (inputNumber.value < randonNumber) {
+			screen1.querySelector('h3').innerHTML = `Errou! <br/> O número é MAIOR que ${inputNumber.value}!`
+		};
+		xAttempts++
+	};
 
-      if (Number(inputNumber.value) == randonNumber) {
-			screen1.classList.add("hide")
-			screen2.classList.remove("hide")
-
-			document.querySelector("h2").innerHTML = `Acertou em ${xAttempts} tentativas!`
-      } else {
-			document.querySelector(".screen1").classList.remove("hide")
-			document.querySelector(".screen2").classList.add("hide")
-			screen1.querySelector("h3").innerText = `O número não é ${inputNumber.value} tente novamente!`
-      }
-
-		inputNumber.value = "";
-      xAttempts++;
-
+   inputNumber.value = '';
 };
 
-btnTry.addEventListener('click', handleClick);
+function reset() {
+   screen1.classList.remove('hide')
+   screen2.classList.add('hide')
 
-btnReset.addEventListener("click", () => {
-	screen1.classList.remove("hide")
-	screen2.classList.add("hide")
+   xAttempts = 1
+   randonNumber = creatrandonNumber()
 
-	xAttempts = 1;
-	randonNumber = teste();
+   screen1.querySelector('h3').innerText = ''
 
-	screen1.querySelector("h3").innerText = ""
+   console.clear()
+   console.log("O novo número é " + randonNumber)
+	document.removeEventListener("keyup", keyUp)
+};
 
-	console.clear()
-	console.log(randonNumber)
-})
+function keyUp(e) {
+	++key
+
+	if (e.code == 'Enter' && key == 3) {
+		console.log(key)
+		reset()
+		key = 0
+		document.removeEventListener("keyup", keyUp)
+	}
+	inputNumber.value = ''
+};
