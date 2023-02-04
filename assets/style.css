@@ -35,6 +35,12 @@ p {
    margin-top: 1.6rem;
 }
 
+h3 {
+   color: #b0000089;
+   font-size: 1.6rem;
+   margin-top: 1.6rem;
+}
+
 main {
    width: min(42.8rem, 90%);
    margin-top: -12px;

@@ -22,10 +22,11 @@ function handleClick(event) {
 			screen1.classList.add("hide")
 			screen2.classList.remove("hide")
 
-			document.querySelector("h2").innerHTML = `Acertou em ${xAttempts}!`
+			document.querySelector("h2").innerHTML = `Acertou em ${xAttempts} tentativas!`
       } else {
 			document.querySelector(".screen1").classList.remove("hide")
 			document.querySelector(".screen2").classList.add("hide")
+			screen1.querySelector("h3").innerText = `O número não é ${inputNumber.value} tente novamente!`
       }
 
 		inputNumber.value = "";
@@ -41,6 +42,8 @@ btnReset.addEventListener("click", () => {
 
 	xAttempts = 1;
 	randonNumber = teste();
+
+	screen1.querySelector("h3").innerText = ""
 
 	console.clear()
 	console.log(randonNumber)
